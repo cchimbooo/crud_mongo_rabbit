@@ -1,0 +1,56 @@
+version: '3.2'
+
+services:
+  mongo:
+    image: mongo:4.4.11
+    container_name: "mongo"
+    environment:
+      MONGO_INITDB_DATABASE: teste
+      #MONGO_INITDB_ROOT_USERNAME: "teste"
+      #MONGO_INITDB_ROOT_PASSWORD: "teste"
+    ports:
+      - "27017:27017"
+    volumes:
+     # - ./armazenamento:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - teste-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - teste-network
+
+
+  teste1:
+    image: teste_go:1
+    container_name: 'teste1'
+    ports:
+      - "8081:8080"
+    depends_on:
+      - rabbitmq
+      - mongo
+    environment:
+      - DBBANCO=teste
+      - DBCOLLECTION=teste
+      - DBUSUARIO=
+      - DBSENHA=
+      - DBHOST=mongo
+      - DBPORTA=27017
+      - DBOPCOES=
+      - RABBITFILA=teste
+      - RABBITUSER=guest
+      - RABBITPWD=guest
+      - RABBITHOST=rabbitmq
+      - RABBITPORT=
+      - RABBITVHOST=
+    networks:
+      - teste-network
+
+networks:
+  teste-network:
+    driver: bridge
