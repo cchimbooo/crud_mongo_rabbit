@@ -6,6 +6,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/bsontype"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"testentopus/src/core/corePessoas"
+	"testentopus/src/utils/erroSimples"
 )
 
 type pessoa struct {
@@ -32,7 +33,7 @@ func pessoaMongoParaCore(mPessoa *pessoa) *corePessoas.Pessoa {
 // Converte da pessoaCore para a pessoa do Mongo
 func pessoaCoreParaMongo(cPessoa *corePessoas.Pessoa) (*pessoa, error) {
 	if cPessoa == nil {
-		return nil, errors.New("deve-se informar uma pessoa e não nil")
+		return nil, erroSimples.GerarErro(errors.New("deve-se informar uma pessoa e não nil"), 500, "falha ao ler dados da pessoa")
 	}
 	p := pessoa{
 		Nome:   cPessoa.Nome,

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"regexp"
 	"strings"
+	"testentopus/src/utils/erroSimples"
 )
 
 func gerarUrlMongo(usuario, senha, host, porta, opcoesDeConexao string) string {
@@ -30,7 +31,7 @@ func limparObjectID(s string) (string, error) {
 	re := regexp.MustCompile(`"(.*?)"`)
 	match := re.FindStringSubmatch(s)
 	if len(match) == 0 {
-		return "", errors.New("não foi possível obter o id")
+		return "", erroSimples.GerarErro(errors.New("não foi possível obter o id da pessoa"), 500)
 	}
 	return match[1], nil
 

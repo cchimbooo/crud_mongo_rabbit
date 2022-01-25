@@ -5,6 +5,7 @@ import (
 	"errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"testentopus/src/utils/erroSimples"
 	"time"
 )
 
@@ -21,8 +22,11 @@ func (m mongoDb) Excluir(id string) error {
 	defer cancel()
 
 	result, errDel := m.col.DeleteOne(ctx, bson.M{"_id": objectId})
-	if result.DeletedCount == 0 {
-		return errors.New("o id informado não existia no banco")
+	if errDel != nil {
+		return erroSimples.GerarErro(errDel, 422, "falha ao deletar pessoa")
 	}
-	return errDel
+	if result.DeletedCount == 0 {
+		return erroSimples.GerarErro(errors.New("o id informado não existia no banco"), 422)
+	}
+	return nil
 }

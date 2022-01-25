@@ -4,6 +4,7 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"testentopus/src/core/corePessoas"
+	"testentopus/src/utils/erroSimples"
 	"time"
 )
 
@@ -20,7 +21,7 @@ func (m mongoDb) Criar(cPessoa *corePessoas.Pessoa) (string, error) {
 	// Chama método de inserir
 	id, err := m.col.InsertOne(ctx, pes)
 	if err != nil {
-		return "", err
+		return "", erroSimples.GerarErro(err, 500, "falha ao inserir pessoa")
 	}
 
 	// Converte o Id do mongo para string para o resto do sistema ler

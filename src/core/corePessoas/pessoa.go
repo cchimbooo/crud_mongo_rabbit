@@ -3,6 +3,7 @@ package corePessoas
 import (
 	"bytes"
 	"errors"
+	"testentopus/src/utils/erroSimples"
 )
 
 // PessoaCoreFactory Instancia uma CorePessoaInterface
@@ -25,7 +26,7 @@ type pessoaCore struct {
 func (p pessoaCore) Criar(pessoa *Pessoa) (string, error) {
 	// valida se pessoa esta completa
 	if pessoa == nil {
-		return "", errors.New("pessoa não informada")
+		return "", erroSimples.GerarErro(errors.New("pessoa não informada"), 500)
 	}
 
 	// Cria a pessoa e pega o id  -- TODO ver se tem que retornar o ID ou o objeto
@@ -43,10 +44,10 @@ func (p pessoaCore) Criar(pessoa *Pessoa) (string, error) {
 
 func (p pessoaCore) Atualizar(pessoa *Pessoa) error {
 	if pessoa == nil {
-		return errors.New("pessoa não informada")
+		return erroSimples.GerarErro(errors.New("pessoa não informada"), 500)
 	}
 	if pessoa.Id == "" {
-		return errors.New("id da pessoa não informado")
+		return erroSimples.GerarErro(errors.New("id da pessoa não informado"), 500)
 	}
 	// Valida se esta preenchida
 	if err := pessoa.validarPessoa(); err != nil {
@@ -85,7 +86,7 @@ func (p pessoaCore) Excluir(id string) error {
 
 func (p pessoaCore) Obter(id string) (*Pessoa, error) {
 	if id == "" {
-		return nil, errors.New("id deve ser preenchido")
+		return nil, erroSimples.GerarErro(errors.New("id deve ser preenchido"), 500)
 	}
 	return p.db.Obter(id)
 }

@@ -3,8 +3,8 @@ package mongoDb
 import (
 	"context"
 	"go.mongodb.org/mongo-driver/bson"
-	"log"
 	"testentopus/src/core/corePessoas"
+	"testentopus/src/utils/erroSimples"
 	"time"
 )
 
@@ -20,10 +20,10 @@ func (m mongoDb) Listar(_ corePessoas.FiltroPessoas) ([]corePessoas.Pessoa, erro
 	retorno, errFind := m.col.Find(ctx, bson.M{})
 	// Da o decode para o model de listaDbPessoa
 	if errFind != nil {
-		return nil, errFind
+		return nil, erroSimples.GerarErro(errFind, 500, "falha ao listar pessoas")
 	}
 	if err := retorno.All(ctx, &listaDbPessoa); err != nil {
-		log.Fatal(err)
+		return nil, erroSimples.GerarErro(err, 500, "falha ao ler listagem de pessoas")
 	}
 
 	// cria slice de pessoaCore
