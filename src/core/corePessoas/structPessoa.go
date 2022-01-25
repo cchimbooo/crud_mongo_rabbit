@@ -3,6 +3,7 @@ package corePessoas
 import (
 	"bytes"
 	"errors"
+	"testentopus/src/utils/erroSimples"
 )
 
 type Pessoa struct {
@@ -16,22 +17,22 @@ type Pessoa struct {
 
 func (p Pessoa) validarPessoa() error {
 	if p.Nome == "" {
-		return errors.New("nome da pessoa deve ser preenchido")
+		return erroSimples.GerarErro(errors.New("nome da pessoa deve ser preenchido"), 422)
 	}
 
 	if p.Sexo == 0 {
-		return errors.New("sexo da pessoa deve ser preenchido")
+		return erroSimples.GerarErro(errors.New("sexo da pessoa deve ser preenchido"), 422)
 	}
 
 	if p.Peso == 0 {
-		return errors.New("peso da pessoa deve ser preenchido")
+		return erroSimples.GerarErro(errors.New("peso da pessoa deve ser preenchido"), 422)
 	}
 	if p.Altura == 0 {
-		return errors.New("altura da pessoa deve ser preenchida")
+		return erroSimples.GerarErro(errors.New("altura da pessoa deve ser preenchida"), 422)
 	}
 
 	if p.IMC == 0 {
-		return errors.New("imc deve ser preenchido")
+		return erroSimples.GerarErro(errors.New("imc deve ser preenchido"), 422)
 	}
 	return nil
 }
