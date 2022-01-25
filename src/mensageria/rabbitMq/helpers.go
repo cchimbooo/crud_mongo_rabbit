@@ -1,6 +1,9 @@
 package rabbitMq
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 func gerarUrlConexao(usuario, senha, host, port, vhost string) string {
 	b := strings.Builder{}
@@ -10,9 +13,12 @@ func gerarUrlConexao(usuario, senha, host, port, vhost string) string {
 	b.WriteString(senha)
 	b.WriteString("@")
 	b.WriteString(host)
-	b.WriteString(":")
+	if port != "" {
+		b.WriteString(":")
+	}
 	b.WriteString(port)
 	b.WriteString("/")
 	b.WriteString(vhost)
+	fmt.Println(b.String())
 	return b.String()
 }
