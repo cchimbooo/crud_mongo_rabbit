@@ -8,13 +8,14 @@ import (
 	"testentopus/src/comunicacao/ginController"
 	"testentopus/src/core/corePessoas"
 	"testentopus/src/mensageria/rabbitMq"
+	"time"
 )
 
 func main() {
 	if loadError := godotenv.Load(); loadError != nil {
 		log.Fatalln(loadError.Error())
 	}
-
+	time.Sleep(30 * time.Second)
 	armazenamento, errArmazenamento := mongoDb.MongoDbFactory(
 		os.Getenv("DBBANCO"),
 		os.Getenv("DBCOLLECTION"),
