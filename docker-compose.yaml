@@ -51,6 +51,32 @@ services:
     networks:
       - teste-network
 
+
+  teste2:
+    image: teste2:1
+    container_name: 'teste2'
+    ports:
+      - "5000:5000"
+    depends_on:
+      - rabbitmq
+    environment:
+      - DBBANCO=teste
+      - DBCOLLECTION=teste
+      - DBUSUARIO=
+      - DBSENHA=
+      - DBHOST=mongo
+      - DBPORTA=27017
+      - DBOPCOES=
+      - RABBITFILA=teste
+      - RABBITUSER=guest
+      - RABBITPWD=guest
+      - RABBITHOST=rabbitmq
+      - RABBITPORT=
+      - RABBITVHOST=
+    networks:
+      - teste-network
+
+
 networks:
   teste-network:
     driver: bridge
